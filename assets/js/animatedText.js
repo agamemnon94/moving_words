@@ -1,7 +1,3 @@
-window.addEventListener("load", () => {
-  document.body.classList.remove("clean__transition");
-});
-
 class AnimatedText {
   constructor(elementId) {
     this.textContainer = document.getElementById(elementId);
@@ -14,12 +10,20 @@ class AnimatedText {
   }
 
   init() {
-    if (this.textContainer) {
-      this.createSpans(this.sentences);
-      setTimeout(() => {
-        this.sequenceTextAndAnimation(document.getElementById("homeText"));
-      }, 1500);
-    }
+    return new Promise((resolve) => {
+      if (this.textContainer) {
+        this.createSpans(this.sentences);
+        setTimeout(() => {
+          this.sequenceTextAndAnimation(
+            document.getElementById("homeText")
+          ).then(() => {
+            resolve();
+          });
+        }, 500);
+      } else {
+        resolve();
+      }
+    });
   }
 
   createSpans(sentences) {
@@ -39,7 +43,7 @@ class AnimatedText {
   }
 
   async sequenceTextAndAnimation(textToReplace) {
-    const target = document.getElementById("homeText");
+    const target = textToReplace;
     const sentenceArray = JSON.parse(textToReplace.dataset.text);
     const spanContainers = Array.from(this.textContainer.children);
 
@@ -54,28 +58,30 @@ class AnimatedText {
     }
 
     await this.sleep(1500);
+
     target.textContent = "\u00A0";
-    document.querySelector(".landing-title").classList.add("animated_title");
   }
 
   async displayText(target, sentence) {
     target.textContent = "\u00A0";
 
+    await this.sleep(700);
+
     for (let charIndex = 0; charIndex < sentence.length; charIndex++) {
       const char = sentence[charIndex];
-      await this.sleep(80);
+      await this.sleep(40);
       target.textContent = target.textContent.slice(0, -1) + char + "\u00A0";
     }
 
-    await this.sleep(1000);
+    await this.sleep(500);
   }
 
   async animateSpans(spanContainer, sentenceIndex) {
     spanContainer.style.opacity = 1;
     const spanArray = Array.from(spanContainer.querySelectorAll(".letter"));
-    await this.sleep(500);
-    await this.animateLetters(spanArray, sentenceIndex);
     await this.sleep(1500);
+    await this.animateLetters(spanArray, sentenceIndex);
+    await this.sleep(1000);
   }
 
   animateLetters(letters, sentenceIndex) {
@@ -87,13 +93,17 @@ class AnimatedText {
 
       letters.forEach((letter, index) => {
         const rect = letter.getBoundingClientRect();
-        const deltaX = rect.left - totalOffset - 10;
+        // ↓ Avec changement de la taille de police pendant l'animation
+        const deltaX = rect.left - totalOffset + 10;
+        // ↓ Sans changement de la taille de police pendant l'animation
+        // const deltaX = rect.left - totalOffset - 10;
         const deltaY = rect.top - initialOffsetY - verticalOffset;
 
         setTimeout(() => {
           requestAnimationFrame(() => {
             letter.style.transition = "transform 0.4s ease-out";
             letter.style.transform = `translate(-${deltaX}px, -${deltaY}px) rotate(-45deg)`;
+            letter.style.fontSize = "1.8rem";
           });
 
           setTimeout(() => {
@@ -103,7 +113,7 @@ class AnimatedText {
               letter.classList.add("blink");
             }, 300);
             setTimeout(() => {
-              letter.style.color = "var(--violine)";
+              letter.style.color = "var(--fluo)";
             }, 600);
             animationCompleted += 1;
             if (animationCompleted === letters.length) {
@@ -123,6 +133,14 @@ class AnimatedText {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const animatedText = new AnimatedText("text-container");
-  animatedText.init();
+  document.body.classList.remove("clean__transition");
+
+  const textAnimation = new AnimatedText("text-container");
+  const delay = 30;
+
+  setTimeout(() => {
+    textAnimation.init().then(() => {
+      console.log("All is ok !");
+    });
+  }, delay);
 });
