@@ -19,30 +19,10 @@
 :root {
   --black: #0f0f0f;
   --deepdark: #222;
-  --transparentBlack: #1b1b1b96;
   --dark: #2a2a2a;
-  --darker: #1b1b1b;
-  --transparentDark: #2a2a2a98;
-  --darkGradiant: #333;
-  --transparentDarkGradiant: #3333338c;
-  --foot-bg: #4386b3;
-  --nav-bg: #4386b3;
-  --nav-bg-dark: #2c5672;
-  --red: #f02725;
-  --violine: rgb(142, 102, 253);
   --white: #fefefe;
   --fluo: hsl(200, 100%, 50%);
-
-  --light_box: 0px 3px 8px rgba(0, 0, 0, 0.24);
-  --big_box: 0px 3px 8px rgba(0, 0, 0, 0.24), 0px 3px 12px rgba(0, 0, 0, 0.24),
-    0px 3px 18px rgba(0, 0, 0, 0.24);
-  --dark_box: 0px 3px 8px rgba(0, 0, 0, 0.8);
-  --big_dark_box: 0px 3px 8px rgba(0, 0, 0, 0.8),
-    0px 3px 12px rgba(0, 0, 0, 0.8);
-  --inset_light: inset 0 0 3px #fefefe;
   --blink: 0 0 8px #fff, 0 0 16px #fff, 0 0 24px #fff, 0 0 32px #fff;
-  --light_blink: 0 0 8px #fff, 0 0 12px #fff;
-  --text_shadow: 4px 5px 15px #fff;
 }
 
 html {
@@ -89,7 +69,6 @@ h1 {
 }
 
 span {
-  /* font-size: 2.5rem; */
   font-size: clamp(1.8rem, 3svw, 2.5rem);
 }
 
@@ -117,36 +96,8 @@ p {
     text-shadow: var(--blink);
   }
   100% {
-    /* text-shadow: 1px 2px 7px #000; */
     text-shadow: none;
   }
-}
-
-.input_blink {
-  animation: inputBlink 0.4s cubic-bezier(0.9, 0.13, 0.51, 0.76) forwards;
-}
-
-@keyframes inputBlink {
-  0% {
-    box-shadow: none;
-  }
-  50% {
-    box-shadow: var(--light_blink);
-  }
-  100% {
-    box-shadow: none;
-  }
-}
-
-.alert {
-  position: absolute;
-  top: 50px;
-  margin: 0 auto;
-}
-
-.landing-title {
-  margin-bottom: 50px;
-  opacity: 0;
 }
 
 .main_container {
@@ -190,21 +141,5 @@ article {
   /* On peut utiliser "&" ou bientôt "@nest" pour la sélection en nesting */
   & p {
     color: pink;
-  }
-}
-
-.animated_title {
-  animation: animatedTitle 1s ease-in-out forwards;
-}
-@keyframes animatedTitle {
-  0% {
-    opacity: 0;
-    transform: translateY(0);
-    font-size: clamp(2.5rem, 3vw, 4rem);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(-120px);
-    font-size: clamp(4rem, 3vw, 5.5rem);
   }
 }

@@ -94,16 +94,16 @@ class AnimatedText {
       letters.forEach((letter, index) => {
         const rect = letter.getBoundingClientRect();
         // ↓ Avec changement de la taille de police pendant l'animation
-        const deltaX = rect.left - totalOffset + 10;
+        // const deltaX = rect.left - totalOffset + 10;
         // ↓ Sans changement de la taille de police pendant l'animation
-        // const deltaX = rect.left - totalOffset - 10;
+        const deltaX = rect.left - totalOffset - 10;
         const deltaY = rect.top - initialOffsetY - verticalOffset;
 
         setTimeout(() => {
           requestAnimationFrame(() => {
             letter.style.transition = "transform 0.4s ease-out";
             letter.style.transform = `translate(-${deltaX}px, -${deltaY}px) rotate(-45deg)`;
-            letter.style.fontSize = "1.8rem";
+            // letter.style.fontSize = "1.8rem";
           });
 
           setTimeout(() => {
